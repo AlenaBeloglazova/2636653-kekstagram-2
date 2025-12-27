@@ -16,30 +16,27 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
-
 const getUniqueId = (() => {
   const used = [];
   return () => {
     let num;
-    do {
+    num = getRandomInteger(1, 25);
+    while (used.includes(num)) {
       num = getRandomInteger(1, 25);
-    } while (used.includes(num));
+    }
     used.push(num);
     return num;
   };
 })();
 
 
-let commentIdCounter = 0;
-const getCommentId = () => ++commentIdCounter;
-
-const createComment = () => {
+const createComments = (createPostCommentIdGenerator) => {
   const randomMessageIndex = getRandomInteger(0, MESSAGE.length - 1);
   const randomNameIndex = getRandomInteger(0, NAMES.length - 1);
   const avatarId = getRandomInteger(1, 6);
 
   return {
-    id: getCommentId(),
+    id: createPostCommentIdGenerator(),
     avatar: `img/avatar-${ avatarId }.svg`,
     message: MESSAGE[randomMessageIndex],
     name: NAMES[randomNameIndex],
@@ -49,8 +46,14 @@ const createComment = () => {
 
 const createPhoto = () => {
   const id = getUniqueId();
-  const commentId = getRandomInteger (MIN_COMMENTS, MAX_COMMENTS);
-  const similarComments = Array.from({length: commentId}, createComment);
+  const commentCount = getRandomInteger (MIN_COMMENTS, MAX_COMMENTS);
+
+  const createPostCommentIdGenerator = (() => {
+    let commentId = 0;
+    return () => ++commentId;
+  })();
+
+  const similarComments = Array.from({length: commentCount}, () => createComments(createPostCommentIdGenerator));
 
   return {
     id: id,
@@ -62,5 +65,5 @@ const createPhoto = () => {
 };
 
 const similarPhotos = Array.from({length: POSTS_COUNT}, createPhoto);
-console.log (similarPhotos);
+
 console.dir(similarPhotos, { depth: null });
