@@ -1,4 +1,6 @@
 import { MOCKED_PHOTOS } from './const.js';
+import { openBigPhoto } from './full-photo.js';
+
 
 const template = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
@@ -15,11 +17,24 @@ const createThumbnails = (photo) => {
   thumbnails.querySelector('.picture__likes').textContent = photo.likes;
 
   return thumbnails;
+
 };
 
-MOCKED_PHOTOS.forEach((photo)=>{
+const posts = createThumbnails();
+posts.forEach((photo)=>{
   const thumbnails = createThumbnails(photo);
   fragment.appendChild(thumbnails);
 });
 
 container.appendChild(fragment);
+
+
+// MOCKED_PHOTOS.forEach((photo)=>{
+//   const thumbnails = createThumbnails(photo);
+//   fragment.appendChild(thumbnails);
+
+//   thumbnails.addEventListener('click', (evt) => {
+//     evt.preventDefault();
+//     openBigPhoto(photo);
+//   });
+// });
