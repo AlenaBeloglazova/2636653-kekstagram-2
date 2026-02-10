@@ -1,12 +1,8 @@
-import {openBigPhoto} from './full-photo.js';
+import { openBigPhoto } from './full-photo.js';
 
 
 const template = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
-
-console.log(container);
-console.log(container?.classList);
-
 const fragment = document.createDocumentFragment();
 
 
