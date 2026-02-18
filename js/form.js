@@ -10,7 +10,10 @@ const initUploadForm = () => {
   const scaleControlSmaller = document.querySelector('.scale__control--smaller');
   const scaleControlBigger = document.querySelector('.scale__control--bigger');
   const scaleControlValue = document.querySelector('.scale__control--value');
-
+  const sliderElement = document.querySelector('.effect-level__slider');
+  const effectValue = document.querySelector('.effect-level__value');
+  let currentEffect = 'none';
+  const effectsList = document.querySelector('.effects__list');
 
   const onDocumentKeydown = (evt) => {
     if (isEscapeKey(evt)) {
@@ -30,6 +33,7 @@ const initUploadForm = () => {
     imgUploadOverlay.classList.remove('hidden');
     body.classList.add('modal-open');
     document.addEventListener('keydown', onDocumentKeydown);
+    sliderElement.classList.add('hidden');
   }
 
   imgUploadInput.addEventListener('change', openUploadForm);
@@ -138,11 +142,6 @@ const initUploadForm = () => {
 
   // слайдер
 
-  const sliderElement = document.querySelector('.img-upload__effect-level');
-  const effectValue = document.querySelector('.effect-level__value');
-  let currentEffect = 'none';
-  const effectsList = document.querySelector('.effects__list');
-
   noUiSlider.create(sliderElement, {
     range: {
       min: 0,
@@ -192,6 +191,8 @@ const initUploadForm = () => {
     imgUploadInput.value = '';
     imgUploadForm.reset();
     pristine.reset();
+    imgUploadPreview.style.filter = 'none';
+    imgUploadPreview.style.transform = 'none';
   }
 
   imgUploadCancel.addEventListener('click', closeUploadForm);
