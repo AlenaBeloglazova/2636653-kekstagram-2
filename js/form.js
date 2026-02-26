@@ -2,8 +2,6 @@ import { isEscapeKey } from './util.js';
 import { EFFECTS } from './const.js';
 import { sendData } from './api.js';
 
-
-// Вынесите функции показа сообщений на верхний уровень
 const showSuccessMessage = () => {
   const template = document.querySelector('#success').content;
   const successElement = template.cloneNode(true);

@@ -1,28 +1,16 @@
-import { renderThumbnails } from './thumbnails.js';
+const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram/data';
+
+const getData = () =>
+  fetch(BASE_URL)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Не удалось загрузить данные');
+      }
+      return response.json();
+    });
 
 
-fetch('https://31.javascript.htmlacademy.pro/kekstagram/data')
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error('Не удалось загрузить данные');
-    }
-    return response.json();
-  })
-  .then((photos) => {
-    renderThumbnails(photos);
-  })
-  .catch(() => {
-    const dataErrorTemplate = document.querySelector('#data-error').content;
-    const errorElement = dataErrorTemplate.cloneNode(true);
-    document.body.appendChild(errorElement);
-
-    setTimeout(() => {
-      errorElement.remove();
-    }, 5000);
-  });
-
-
-const sendData = (formData) => fetch('https://31.javascript.htmlacademy.pro/kekstagram/data', {
+const sendData = (formData) => fetch(BASE_URL, {
   method: 'POST',
   body: formData,
 })
@@ -33,4 +21,4 @@ const sendData = (formData) => fetch('https://31.javascript.htmlacademy.pro/keks
     return response.json();
   });
 
-export { sendData };
+export { getData,sendData };
