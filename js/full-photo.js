@@ -11,6 +11,7 @@ const socialCommentShownCount = document.querySelector('.social__comment-shown-c
 const socialCommentTotalCount = document.querySelector('.social__comment-total-count');
 const socialCaption = bigPicture.querySelector('.social__caption');
 const socialCommentsContainer = bigPicture.querySelector('.social__comments');
+const socialFooterText = document.querySelector('.social__footer-text');
 let handleLoadMore;
 
 const onDocumentKeydown = (evt) => {
@@ -105,6 +106,10 @@ function closeBigPhoto () {
 
   document.removeEventListener('keydown', onDocumentKeydown);
   buttonClose.removeEventListener('click', onCloseButtonClick);
+
+  if (socialFooterText) {
+    socialFooterText.value = '';
+  }
 
   if (handleLoadMore) {
     commentsLoader.removeEventListener('click', handleLoadMore);
