@@ -2,11 +2,18 @@
 import { getData } from './api.js';
 import { renderThumbnails } from './thumbnails.js';
 import { initUploadForm } from './form.js';
+import { initFilters } from './filters.js';
 
 initUploadForm();
 
 getData()
-  .then((photos) => renderThumbnails(photos))
+  .then((photos) => {
+    renderThumbnails(photos);
+    initFilters(photos);
+
+    const imgFilters = document.querySelector('.img-filters');
+    imgFilters.classList.remove('img-filters--inactive');
+  })
   .catch(() => {
     const dataErrorTemplate = document.querySelector('#data-error').content;
     const errorElement = dataErrorTemplate.cloneNode(true);

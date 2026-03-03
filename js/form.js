@@ -91,7 +91,7 @@ const initUploadForm = () => {
       closeUploadForm();
     }
   };
-
+  
   function openUploadForm () {
     imgUploadOverlay.classList.remove('hidden');
     body.classList.add('modal-open');
