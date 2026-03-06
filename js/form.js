@@ -255,7 +255,8 @@ const initUploadForm = () => {
 
   sliderElement.noUiSlider.on('update', () => {
     const value = sliderElement.noUiSlider.get();
-    effectValue.value = value;
+    const roundedValue = Math.round(value * 10) / 10;
+    effectValue.value = roundedValue;
 
     if (currentEffect !== 'none') {
       const effect = EFFECTS[currentEffect];
@@ -263,14 +264,17 @@ const initUploadForm = () => {
     }
   });
 
-  effectsList.addEventListener('change', (evt) => {
+ effectsList.addEventListener('change', (evt) => {
     currentEffect = evt.target.value;
     const effect = EFFECTS[currentEffect];
+    const effectLevelContainer = document.querySelector('.img-upload__effect-level');
 
     if (currentEffect === 'none') {
       sliderElement.classList.add('hidden');
+      effectLevelContainer.classList.add('hidden');
       imgUploadPreview.style.filter = 'none';
     } else {
+      effectLevelContainer.classList.remove('hidden');
       sliderElement.classList.remove('hidden');
       sliderElement.noUiSlider.updateOptions({
         range: {
