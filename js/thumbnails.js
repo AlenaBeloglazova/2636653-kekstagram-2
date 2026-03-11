@@ -3,7 +3,6 @@ import { openBigPhoto } from './full-photo.js';
 const template = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
 
-
 const createThumbnails = (photo) => {
   const thumbnails = template.cloneNode(true);
   const image = thumbnails.querySelector('.picture__img');
