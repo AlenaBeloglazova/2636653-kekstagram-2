@@ -2,6 +2,7 @@ import { isEscapeKey } from './util.js';
 import { EFFECTS } from './const.js';
 import { sendData } from './api.js';
 
+
 const showSuccessMessage = () => {
   const template = document.querySelector('#success').content;
   const successElement = template.cloneNode(true);
@@ -10,23 +11,23 @@ const showSuccessMessage = () => {
   const successMessage = document.querySelector('.success');
   const successButton = successMessage.querySelector('.success__button');
 
-  const closeSuccess = () => {
-    successMessage.remove();
-    document.removeEventListener('keydown', onEscKeydown);
-    document.removeEventListener('click', onOutsideClick);
-  };
-
-  const onEscKeydown = (evt) => {
+  function onEscKeydown(evt) {
     if (evt.key === 'Escape') {
       closeSuccess();
     }
-  };
+  }
 
-  const onOutsideClick = (evt) => {
+  function onOutsideClick(evt) {
     if (!evt.target.closest('.success__inner')) {
       closeSuccess();
     }
-  };
+  }
+
+  function closeSuccess() {
+    successMessage.remove();
+    document.removeEventListener('keydown', onEscKeydown);
+    document.removeEventListener('click', onOutsideClick);
+  }
 
   successButton.addEventListener('click', closeSuccess);
   document.addEventListener('keydown', onEscKeydown);
@@ -41,23 +42,23 @@ const showErrorMessage = () => {
   const errorMessage = document.querySelector('.error');
   const errorButton = errorMessage.querySelector('.error__button');
 
-  const closeError = () => {
-    errorMessage.remove();
-    document.removeEventListener('keydown', onEscKeydown);
-    document.removeEventListener('click', onOutsideClick);
-  };
-
-  const onEscKeydown = (evt) => {
+  function onEscKeydown(evt) {
     if (evt.key === 'Escape') {
       closeError();
     }
-  };
+  }
 
-  const onOutsideClick = (evt) => {
+  function onOutsideClick(evt) {
     if (!evt.target.closest('.error__inner')) {
       closeError();
     }
-  };
+  }
+
+  function closeError() {
+    errorMessage.remove();
+    document.removeEventListener('keydown', onEscKeydown);
+    document.removeEventListener('click', onOutsideClick);
+  }
 
   errorButton.addEventListener('click', closeError);
   document.addEventListener('keydown', onEscKeydown);
@@ -218,7 +219,7 @@ const initUploadForm = () => {
   // масштаб картинки
   scaleControlSmaller.onclick = function() {
     const currentValue = scaleControlValue.value;
-    let numericValue = parseInt(currentValue);
+    let numericValue = parseInt(currentValue,10);
 
     numericValue -= 25;
     if (numericValue < 25) {
@@ -230,7 +231,7 @@ const initUploadForm = () => {
 
   scaleControlBigger.onclick = function() {
     const currentValue = scaleControlValue.value;
-    let numericValue = parseInt(currentValue);
+    let numericValue = parseInt(currentValue,10);
 
     numericValue += 25;
     if (numericValue > 100) {
