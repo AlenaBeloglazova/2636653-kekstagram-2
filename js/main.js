@@ -4,6 +4,8 @@ import { renderThumbnails } from './thumbnails.js';
 import { initUploadForm } from './form.js';
 import { initFilters } from './filters.js';
 
+const ERROR_TIMEOUT = 5000;
+
 initUploadForm();
 
 getData()
@@ -21,5 +23,5 @@ getData()
 
     setTimeout(() => {
       errorElement.remove();
-    }, 5000);
+    }, ERROR_TIMEOUT);
   });

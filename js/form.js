@@ -1,6 +1,13 @@
-import { isEscapeKey } from './util.js';
 import { EFFECTS } from './const.js';
 import { sendData } from './api.js';
+
+const HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
+const QUANTITY_HASHTAGS = 5;
+const QUANTITY_SIMBOLS = 140;
+const SCALE_STEP = 25;
+const SCALE_MIN = 25;
+const SCALE_MAX = 100;
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const showSuccessMessage = () => {
   const template = document.querySelector('#success').content;
@@ -118,14 +125,14 @@ const initUploadForm = () => {
     body.classList.add('modal-open');
     document.addEventListener('keydown', onDocumentKeydown);
     sliderElement.classList.add('hidden');
+    const effectLevelContainer = document.querySelector('.img-upload__effect-level');
+    effectLevelContainer.style.display = 'none';
   }
 
   imgUploadInput.addEventListener('change', onFileInputChange);
 
   // валидация формы
-  const HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
   const hashtagsField = imgUploadForm.querySelector('.text__hashtags');
-
   const pristine = new Pristine(imgUploadForm, {
     classTo: 'img-upload__field-wrapper',
     errorTextParent: 'img-upload__field-wrapper',
@@ -165,13 +172,13 @@ const initUploadForm = () => {
     }
 
     const hashtags = value.trim().split(/\s+/);
-    return hashtags.length <= 5;
+    return hashtags.length <= QUANTITY_HASHTAGS;
   };
 
   pristine.addValidator(
     hashtagsField,
     validateHashtagsCount,
-    'Нельзя указать больше пяти хэштегов'
+    `Нельзя указать больше ${QUANTITY_HASHTAGS} хэштегов`
   );
 
   const validateHashtagsUnique = (value) => {
@@ -208,37 +215,37 @@ const initUploadForm = () => {
   );
 
   const commentField = imgUploadForm.querySelector('.text__description');
-  const validateComment = (value) => value.length <= 140;
+  const validateComment = (value) => value.length <= QUANTITY_SIMBOLS;
 
   pristine.addValidator(
     commentField,
     validateComment,
-    'Длина комментария больше 140 символов'
+    `Длина комментария больше ${QUANTITY_SIMBOLS} символов`
   );
 
   // масштаб картинки
   scaleControlSmaller.onclick = function() {
     const currentValue = scaleControlValue.value;
-    let numericValue = parseInt(currentValue,10);
+    let numericValue = parseInt(currentValue, 10);
 
-    numericValue -= 25;
-    if (numericValue < 25) {
-      numericValue = 25;
+    numericValue -= SCALE_STEP;
+    if (numericValue < SCALE_MIN) {
+      numericValue = SCALE_MIN;
     }
     scaleControlValue.value = `${numericValue}%`;
-    imgUploadPreview.style.transform = `scale(${numericValue / 100})`;
+    imgUploadPreview.style.transform = `scale(${numericValue / SCALE_MAX})`;
   };
 
   scaleControlBigger.onclick = function() {
     const currentValue = scaleControlValue.value;
-    let numericValue = parseInt(currentValue,10);
+    let numericValue = parseInt(currentValue, 10);
 
-    numericValue += 25;
-    if (numericValue > 100) {
-      numericValue = 100;
+    numericValue += SCALE_STEP;
+    if (numericValue > SCALE_MAX) {
+      numericValue = SCALE_MAX;
     }
     scaleControlValue.value = `${numericValue}%`;
-    imgUploadPreview.style.transform = `scale(${numericValue / 100})`;
+    imgUploadPreview.style.transform = `scale(${numericValue / SCALE_MAX})`;
   };
 
   // слайдер
@@ -325,4 +332,4 @@ const initUploadForm = () => {
   imgUploadCancel.addEventListener('click', closeUploadForm);
 };
 
-export { initUploadForm };
+export { initUploadForm, isEscapeKey };
