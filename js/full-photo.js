@@ -1,5 +1,6 @@
-import { isEscapeKey } from './util.js';
+import { isEscapeKey } from './form.js';
 
+const COMMENTS_PER_PAGE = 5;
 const bigPicture = document.querySelector('.big-picture');
 const socialCcommentCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
@@ -20,7 +21,6 @@ const onDocumentKeydown = (evt) => {
     closeBigPhoto();
   }
 };
-
 
 const onCloseButtonClick = (evt) => {
   evt.preventDefault();
@@ -59,7 +59,6 @@ function openBigPhoto(photo) {
 
   socialCommentsContainer.innerHTML = '';
 
-  const COMMENTS_PER_PAGE = 5;
   const remainingComments = [...photo.comments];
   let showCommentsCount = 0;
 
