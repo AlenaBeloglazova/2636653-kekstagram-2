@@ -8,12 +8,11 @@ const SCALE_STEP = 25;
 const SCALE_MIN = 25;
 const SCALE_MAX = 100;
 const isEscapeKey = (evt) => evt.key === 'Escape';
+const template = document.querySelector('#success').content;
 
 const showSuccessMessage = () => {
-  const template = document.querySelector('#success').content;
   const successElement = template.cloneNode(true);
   document.body.append(successElement);
-
 
   const successMessage = document.querySelector('.success');
   const successButton = successMessage.querySelector('.success__button');
@@ -40,10 +39,10 @@ const showSuccessMessage = () => {
   document.addEventListener('keydown', onEscKeydown);
   document.addEventListener('click', onOutsideClick);
 };
+const errorTemplate = document.querySelector('#error').content;
 
 const showErrorMessage = () => {
-  const template = document.querySelector('#error').content;
-  const errorElement = template.cloneNode(true);
+  const errorElement = errorTemplate.cloneNode(true);
   document.body.append(errorElement);
 
   const errorMessage = document.querySelector('.error');
@@ -72,22 +71,26 @@ const showErrorMessage = () => {
   document.addEventListener('click', onOutsideClick);
 };
 
-const initUploadForm = () => {
-  const imgUploadForm = document.querySelector('.img-upload__form');
-  const imgUploadInput = document.querySelector('.img-upload__input');
-  const imgUploadOverlay = document.querySelector('.img-upload__overlay');
-  const imgUploadCancel = document.querySelector('.img-upload__cancel');
-  const body = document.querySelector('body');
-  const scaleControlSmaller = document.querySelector('.scale__control--smaller');
-  const scaleControlBigger = document.querySelector('.scale__control--bigger');
-  const scaleControlValue = document.querySelector('.scale__control--value');
-  const sliderElement = document.querySelector('.effect-level__slider');
-  const effectValue = document.querySelector('.effect-level__value');
-  let currentEffect = 'none';
-  const effectsList = document.querySelector('.effects__list');
-  const imgUploadPreview = document.querySelector('.img-upload__preview img');
-  const effectsPreview = document.querySelectorAll('.effects__preview');
+const imgUploadForm = document.querySelector('.img-upload__form');
+const imgUploadInput = document.querySelector('.img-upload__input');
+const imgUploadOverlay = document.querySelector('.img-upload__overlay');
+const imgUploadCancel = document.querySelector('.img-upload__cancel');
+const body = document.querySelector('body');
+const scaleControlSmaller = document.querySelector('.scale__control--smaller');
+const scaleControlBigger = document.querySelector('.scale__control--bigger');
+const scaleControlValue = document.querySelector('.scale__control--value');
+const sliderElement = document.querySelector('.effect-level__slider');
+const effectValue = document.querySelector('.effect-level__value');
+let currentEffect = 'none';
+const effectsList = document.querySelector('.effects__list');
+const imgUploadPreview = document.querySelector('.img-upload__preview img');
+const effectsPreview = document.querySelectorAll('.effects__preview');
+const hashtagsField = imgUploadForm.querySelector('.text__hashtags');
+const submitButton = imgUploadForm.querySelector('.img-upload__submit');
+const commentField = imgUploadForm.querySelector('.text__description');
+const effectLevelContainer = document.querySelector('.img-upload__effect-level');
 
+const initUploadForm = () => {
   const onDocumentKeydown = (evt) => {
     if (isEscapeKey(evt)) {
       if (document.querySelector('.error') || document.querySelector('.success')) {
@@ -132,14 +135,12 @@ const initUploadForm = () => {
   imgUploadInput.addEventListener('change', onFileInputChange);
 
   // валидация формы
-  const hashtagsField = imgUploadForm.querySelector('.text__hashtags');
+
   const pristine = new Pristine(imgUploadForm, {
     classTo: 'img-upload__field-wrapper',
     errorTextParent: 'img-upload__field-wrapper',
     errorTextClass: 'img-upload__field-wrapper--error',
   });
-
-  const submitButton = imgUploadForm.querySelector('.img-upload__submit');
 
   imgUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -214,7 +215,6 @@ const initUploadForm = () => {
     'Введён невалидный хэштег'
   );
 
-  const commentField = imgUploadForm.querySelector('.text__description');
   const validateComment = (value) => value.length <= QUANTITY_SIMBOLS;
 
   pristine.addValidator(
@@ -273,7 +273,6 @@ const initUploadForm = () => {
   effectsList.addEventListener('change', (evt) => {
     currentEffect = evt.target.value;
     const effect = EFFECTS[currentEffect];
-    const effectLevelContainer = document.querySelector('.img-upload__effect-level');
 
     if (currentEffect === 'none') {
       sliderElement.classList.add('hidden');

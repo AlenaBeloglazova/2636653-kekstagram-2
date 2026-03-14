@@ -18,7 +18,7 @@ getData()
   })
   .catch(() => {
     const dataErrorTemplate = document.querySelector('#data-error').content;
-    const errorElement = dataErrorTemplate.cloneNode(true);
+    const errorElement = dataErrorTemplate.cloneNode(true).firstElementChild;
     document.body.appendChild(errorElement);
 
     setTimeout(() => {
